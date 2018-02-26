@@ -1,15 +1,20 @@
 {
   "name": "plex-status",
-  "version": "1.0.0",
-  "description": "Show the status of your Plex server in your menu bar",
-  "license": "MIT",
+  "version": "0.1.0",
+  "private": true,
   "main": "main.js",
-  "scripts": {
-    "start": "electron ."
-  },
   "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^5.0.0",
     "electron": "^1.8.2",
     "menubar": "^5.2.3",
     "plex-api": "^5.2.0"
+  },
+  "devDependencies": {
+    "electron": "1.8.2",
+    "electron-builder": "^20.0.6"
+  },
+  "scripts": {
+    "start": "electron ."
   }
 }
