@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const electron = require('electron');
+const ipc = electron.ipcMain;
 const { app, BrowserWindow, Tray } = electron;
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -20,9 +21,11 @@ const plexOptions = {
 const client = new PlexAPI(plexOptions);
 const mb = menubar({ icon: 'static/icon.png' });
 
+let runningVideos = '';
+
 mb.on('after-create-window', () => {
   if (isDevelopment) {
-    mb.window.openDevTools();
+    // mb.window.openDevTools();
   }
 });
 
@@ -52,7 +55,7 @@ async function getSessionStatus() {
       return;
     }
 
-    const runningVideos = data.Video.map((vid) => {
+    runningVideos = data.Video.map((vid) => {
       return {
         title: vid.title,
         type: vid.type,
@@ -67,3 +70,7 @@ async function getSessionStatus() {
     console.log('Error getting session status', e);
   }
 }
+
+ipc.on('getPlexData', (event, data) => {
+  event.sender.send('dataResp', runningVideos);
+});
