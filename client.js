@@ -7,5 +7,6 @@ ipc.once('dataResp', (event, response) => {
 ipc.send('getPlexData', 'someData');
 
 function bindDataToView(response) {
-  document.getElementById('title').innerHTML += response[0].title;
+  const video = response[0];
+  document.getElementById('title').innerHTML += `${video.showName} - ${video.episodeTitle}`;
 }

@@ -34,11 +34,10 @@ mb.on('ready', () => {
 
   setInterval(() => {
     getSessionStatus();
-  }, 5000); // 60000
+  }, 300000); // 5 minutes
 });
 
 function toggleIcon(isActive) {
-  console.log('Icon is active?', isActive);
   const iconName = isActive ? 'icon-active' : 'icon';
   mb.tray.setImage(`static/${iconName}.png`);
 }
@@ -46,7 +45,10 @@ function toggleIcon(isActive) {
 async function getSessionStatus() {
   try {
     const resp = await client.query('/status/sessions');
-    console.log(resp);
+
+    // debug statement
+    console.log(JSON.stringify(resp));
+
     const data = resp.MediaContainer;
 
     if (!data.size || data.size === 0) {
@@ -57,11 +59,13 @@ async function getSessionStatus() {
 
     runningVideos = data.Video.map((vid) => {
       return {
-        title: vid.title,
+        episodeTitle: vid.title,
         type: vid.type,
         duration: millisToMins(vid.duration),
         thumb: vid.thumb,
         art: vid.art,
+        showName: vid.grandparentTitle,
+        seasonNumber: vid.parentTitle,
       };
     });
 
