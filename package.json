@@ -10,7 +10,7 @@
     "plex-api": "5.2.0"
   },
   "devDependencies": {
-    "electron": "1.8.2"
+    "electron": "1.8.3"
   },
   "scripts": {
     "start": "electron ."
